@@ -21,6 +21,15 @@ db = SQLighter('db.db')
 # инициализируем парсер
 sg = StopGame('lastkey.txt')
 
+@dp.message_handler(commands=['start'])
+async def start(message: types.Message):
+	await bot.send_message(message.from_user.id,"Привет, меня зовут Recent News Bot\n\nИ я помогу вам оставаться в курсе последних событий игровой сферы\n\nЧтобы узнать список моих команд введите /help")
+
+@dp.message_handler(commands=['help'])
+async def help(message: types.Message):
+	await bot.send_message(message.from_user.id, "Список команд:\n\n/subscribe - Подписаться на рассылку\n/unsubscribe - Отписаться от рассылки")
+
+
 # Команда активации подписки
 @dp.message_handler(commands=['subscribe'])
 async def subscribe(message: types.Message):
@@ -34,7 +43,7 @@ async def subscribe(message: types.Message):
 		# если он уже есть, то просто обновляем ему статус подписки
 		db.update_subscription(message.from_user.id, True)
 	markup_inline.add(item_news,item_cancel)
-	await message.answer("Вы успешно подписались на рассылку!\n\n Хотите получить последнюю новость?", reply_markup = markup_inline)
+	await message.answer("Вы успешно подписались на рассылку!\n\nХотите получить последнюю новость?", reply_markup = markup_inline)
 
 @dp.callback_query_handler(lambda call:True)
 async def answer(call):
