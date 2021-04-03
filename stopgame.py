@@ -45,8 +45,8 @@ class StopGame:
 		newr = requests.get(postlink,headers=self.HEADERS)
 		newsoup = BS(newr.content, 'html.parser')
 
-		# Парсим фото
-		poster = soup.find('div', class_='image lazy').get('data-src')
+		
+		poster = soup.find('img', class_='image-16x9').get('src')
 
 		info = {
 			"title": newsoup.find('h1',class_='article-title').get_text(),
