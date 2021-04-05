@@ -19,7 +19,7 @@ class Anime:
 			self.lastkey_anim = open(lastkey_anim_file, 'r').read()
 		else:
 			f = open(lastkey_anim_file, 'w')
-			self.lastkey_anim = self.get_lastkey_anim()
+			self.lastkey_anim = self.get_lastkey_anime()
 			f.write(self.lastkey_anim)
 			f.close()
 
@@ -54,8 +54,8 @@ class Anime:
 			"link": postlink,
 			"image": poster,
 			"text": newsoup.find('div',class_="news_text").find('p').get_text()
-		};	
-	
+		}
+
 		return info
 
 	def download_image_anime(self, url):

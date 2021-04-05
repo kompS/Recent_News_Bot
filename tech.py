@@ -29,7 +29,7 @@ class Tech:
 		html = BS(r.content, 'html.parser')
 
 		new = ''
-		items = html.find('span',class_='cell-title').find('a').get('href')
+		items = html.find('span',class_='cell-title').a.get('href')
 
 		key = self.parse_href(items)
 		if(self.lastkey_tech < key):
@@ -40,7 +40,7 @@ class Tech:
 	def tech_info(self):
 		r = requests.get(self.url,headers=self.HEADERS)
 		soup = BS(r.content, 'html.parser')
-		link = soup.find('span',class_='cell-title').find('a').get('href')
+		link = soup.find('span',class_='cell-title').a.get('href')
 
 		postlink = self.host + link
 
@@ -71,11 +71,11 @@ class Tech:
 		r = requests.get(self.url)
 		html = BS(r.content, 'html.parser')
 
-		items = html.find('span',class_='cell-title').find('a').get('href')
+		items = html.find('span',class_='cell-title').a.get('href')
 		return self.parse_href(items)
 
 	def parse_href(self, href):
-		result = re.search(r'\d+', href)
+		result = re.search(r'\d{5}}', href)
 		self.newkey = result.group(0)
 		return result.group(0)
 
