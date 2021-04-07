@@ -43,7 +43,7 @@ class Anime:
     def anime_info(self):
         r = requests.get(self.url, headers=self.HEADERS)
         soup = BS(r.content, 'html.parser')
-        link = soup.find('div', class_="news_box anime_cat").find_next('a').find_next('a').find_next('a').get('href')
+        link = soup.find('a', class_="news_card_link").get('href')
 
         postlink = self.host + link
 
