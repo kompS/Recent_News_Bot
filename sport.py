@@ -33,7 +33,7 @@ class Sport:
         html = BS(r.content, 'html.parser')
 
         new = ''
-        items = html.find('div', class_='col-2').find('a').get('href')
+        items = html.find('div', class_='row').find('a').get('href')
 
         key = self.parse_href(items)
         if (self.lastkey_sport != key):
@@ -44,7 +44,7 @@ class Sport:
     def sport_info(self):
         r = requests.get(self.url, headers=self.HEADERS)
         soup = BS(r.content, 'html.parser')
-        link = soup.find('div', class_='col-2').find('a').get('href')
+        link = soup.find('div', class_='row').find('a').get('href')
 
         postlink = self.host + link
 
@@ -75,7 +75,7 @@ class Sport:
         r = requests.get(self.url)
         html = BS(r.content, 'html.parser')
 
-        items = html.find('div', class_='col-2').find('a').get('href')
+        items = html.find('div', class_='row').find('a').get('href')
         return self.parse_href(items)
 
     def parse_href(self, href):

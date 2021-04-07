@@ -32,7 +32,7 @@ class Anime:
         html = BS(r.content, 'html.parser')
 
         new = ''
-        items = html.find('div', class_="news_sources").find_next('a').find_next('a').find_next('a').get('href')
+        items = html.find('a', class_="news_card_link").get('href')
 
         key = self.parse_href(items)
         if (self.lastkey_anim != key):
@@ -77,11 +77,11 @@ class Anime:
         r = requests.get(self.url)
         html = BS(r.content, 'html.parser')
 
-        items = html.find('div', class_="news_sources").find_next('a').find_next('a').find_next('a').get('href')
+        items = html.find('a', class_="news_card_link").get('href')
         return self.parse_href(items)
 
     def parse_href(self, href):
-        result = re.search(r'\d+', href)
+        result = re.search(r'\d{5,}', href)
         self.newkey = result.group(0)
         return result.group(0)
 
