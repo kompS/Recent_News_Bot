@@ -51,10 +51,9 @@ class Anime:
         newsoup = BS(rr.content, 'html.parser')
 
         # try:
-        item = newsoup.find('div', class_='news_cover_center').find('img').get('src')
+        poster = self.host + newsoup.find('div', class_='news_cover_center').find('img').get('src')
         # except:
-        #     item = newsoup.find('img', class_='splash').get('src')
-        poster = item
+        #     poster = newsoup.find('img', class_='splash').get('src')
 
         info = {
             "title": newsoup.find('h1', class_="news_title").get_text(),
