@@ -50,10 +50,10 @@ class Anime:
         rr = requests.get(postlink, headers=self.HEADERS)
         newsoup = BS(rr.content, 'html.parser')
 
-        try:
-            item = newsoup.find('div', class_='news_cover_center').find('img').get('src')
-        except:
-            item = newsoup.find('img', class_='splash').get('src')
+        # try:
+        item = newsoup.find('div', class_='news_cover_center').find('img').get('src')
+        # except:
+        #     item = newsoup.find('img', class_='splash').get('src')
         poster = item
 
         info = {
