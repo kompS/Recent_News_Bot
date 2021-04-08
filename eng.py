@@ -43,12 +43,15 @@ class Eng:
     def daily_info(self):
         r = requests.get(self.url, headers=self.HEADERS)
         soup = BS(r.content, 'html.parser')
-        link = soup.find('h2', class_='c-entry-box--compact__title').find('a').get('href')
+        link = soup.find('div', class_='c-entry-box--compact c-entry-box--compact--article').find('a').get('href')
 
         rr = requests.get(link, headers=self.HEADERS)
         newsoup = BS(rr.content, 'html.parser')
 
-        poster = newsoup.find('picture', class_='c-picture').find('img').get('src')
+        try:
+            poster = newsoup.find('picture', class_='c-picture').find('img').get('src')
+        except AttributeError:
+            poster = soup.find('div', class_='c-entry-box--compact__image').find_next('img').find_next('img').get('src')
 
         info = {
             "title": newsoup.find('h1', class_='c-page-title').get_text(),

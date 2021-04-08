@@ -36,7 +36,7 @@ class Sport:
         items = html.find('div', class_='row').find('a').get('href')
 
         key = self.parse_href(items)
-        if (self.lastkey_sport != key):
+        if (self.lastkey_sport < key):
             new = key
 
         return new

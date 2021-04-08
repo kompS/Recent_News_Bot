@@ -160,7 +160,7 @@ async def subscribe_kino(message: types.Message):
 	markup_inline.add(item_news,item_cancel)
 	await message.answer("Вы успешно подписались на рассылку!\n\nХотите получить последнюю новость?", reply_markup = markup_inline)
 
-@dp.message_handler(commands=['subscribe_mus'])
+# @dp.message_handler(commands=['subscribe_mus'])
 # async def subscribe_mus(message: types.Message):
 # 	markup_inline = types.InlineKeyboardMarkup()
 # 	item_news = types.InlineKeyboardButton(text = 'Да',callback_data = 'lastnews_mus')
@@ -250,7 +250,7 @@ async def unsubscribe_kino(message: types.Message):
 		db.update_subscription_kino(message.from_user.id, False)
 		await message.answer("Вы успешно отписаны от рассылки.")
 
-@dp.message_handler(commands=['unsubscribe_mus'])
+# @dp.message_handler(commands=['unsubscribe_mus'])
 # async def unsubscribe_mus(message: types.Message):
 # 	if(not db.subscriber_exists_mus(message.from_user.id)):
 # 		db.add_subscriber_mus(message.from_user.id, False)
@@ -717,5 +717,5 @@ if __name__ == '__main__':
 	loop.create_task(scheduled_sale(10))
 	loop.create_task(scheduled_sport(10))
 	loop.create_task(scheduled_kino(10))
-	loop.create_task(scheduled_mus(10))
+	#loop.create_task(scheduled_mus(10))
 	executor.start_polling(dp, skip_updates=True)
