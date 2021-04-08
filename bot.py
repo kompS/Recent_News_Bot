@@ -58,7 +58,7 @@ async def start(message: types.Message):
 
 @dp.message_handler(commands=['help'])
 async def help(message: types.Message):
-	await bot.send_message(message.from_user.id, "Список команд:\n\n/subscribe - Подписаться на рассылку игровых новостей stopgame\n/unsubscribe - Отписаться от рассылки игровых новостей stopgame\n/subscribe_eng - Подписаться на рассылки игровых новостей theverge\n/unsubscribe_eng - Отписаться от рассылки игровых новостей theverge\n/history_calendar - Календарь событий\n/subscribe_anime - Подписаться на рассылку аниме новостей\n/unsubscribe_anime - Отписаться от рассылки аниме новостей\n/subscribe_tech - Подписаться на рассылку новостей техники и высоких технологий\n/unsubscribe_tech - Отписаться от новостей техники и высоких технологий\n/subscribe_sale - Подписаться на рассылку игровых скидок\n/unsubscribe_sale - Отписаться от рассылки игровых скидок\n/subscribe_sport - Подписаться на рассылку спортивных новостей\n/unsubscribe_sport - Отписаться от рассылки спортивных новостей\n/subscribe_kino - Подписаться на рассылку новостей мира кино\n/unsubscribe_kino - Отписаться от рассылки новостей мира кино\n/subscribe_mus - Подписаться на рассылку музыкальных новостей\n/unsubscribe_mus - Отписаться от рассылки музыкальных новостей")
+	await bot.send_message(message.from_user.id, "Список команд:\n\n/subscribe - Подписаться на рассылку игровых новостей stopgame\n/unsubscribe - Отписаться от рассылки игровых новостей stopgame\n/subscribe_eng - Подписаться на рассылки игровых новостей theverge\n/unsubscribe_eng - Отписаться от рассылки игровых новостей theverge\n/history_calendar - Календарь событий\n/subscribe_anime - Подписаться на рассылку аниме новостей\n/unsubscribe_anime - Отписаться от рассылки аниме новостей\n/subscribe_tech - Подписаться на рассылку новостей техники и высоких технологий\n/unsubscribe_tech - Отписаться от новостей техники и высоких технологий\n/subscribe_sale - Подписаться на рассылку игровых скидок\n/unsubscribe_sale - Отписаться от рассылки игровых скидок\n/subscribe_sport - Подписаться на рассылку спортивных новостей\n/unsubscribe_sport - Отписаться от рассылки спортивных новостей\n/subscribe_kino - Подписаться на рассылку новостей мира кино\n/unsubscribe_kino - Отписаться от рассылки новостей мира кино\n/subscribe_mus - В разработке\n/unsubscribe_mus - В разработке")
 
 
 # Команда активации подписки
@@ -161,18 +161,16 @@ async def subscribe_kino(message: types.Message):
 	await message.answer("Вы успешно подписались на рассылку!\n\nХотите получить последнюю новость?", reply_markup = markup_inline)
 
 @dp.message_handler(commands=['subscribe_mus'])
-async def subscribe_mus(message: types.Message):
-	markup_inline = types.InlineKeyboardMarkup()
-	item_news = types.InlineKeyboardButton(text = 'Да',callback_data = 'lastnews_mus')
-	item_cancel = types.InlineKeyboardButton(text = 'Нет',callback_data = 'cancel_mus')
-	if(not db.subscriber_exists_mus(message.from_user.id)):
-		# если юзера нет в базе, добавляем его
-		db.add_subscriber_mus(message.from_user.id)
-	else:
-		# если он уже есть, то просто обновляем ему статус подписки
-		db.update_subscription_mus(message.from_user.id, True)
-	markup_inline.add(item_news,item_cancel)
-	await message.answer("Вы успешно подписались на рассылку!\n\nХотите получить последнюю новость?", reply_markup = markup_inline)
+# async def subscribe_mus(message: types.Message):
+# 	markup_inline = types.InlineKeyboardMarkup()
+# 	item_news = types.InlineKeyboardButton(text = 'Да',callback_data = 'lastnews_mus')
+# 	item_cancel = types.InlineKeyboardButton(text = 'Нет',callback_data = 'cancel_mus')
+# 	if(not db.subscriber_exists_mus(message.from_user.id)):
+# 		db.add_subscriber_mus(message.from_user.id)
+# 	else:
+# 		db.update_subscription_mus(message.from_user.id, True)
+# 	markup_inline.add(item_news,item_cancel)
+# 	await message.answer("Вы успешно подписались на рассылку!\n\nХотите получить последнюю новость?", reply_markup = markup_inline)
 
 # Команда отписки
 @dp.message_handler(commands=['unsubscribe'])
@@ -253,15 +251,13 @@ async def unsubscribe_kino(message: types.Message):
 		await message.answer("Вы успешно отписаны от рассылки.")
 
 @dp.message_handler(commands=['unsubscribe_mus'])
-async def unsubscribe_mus(message: types.Message):
-	if(not db.subscriber_exists_mus(message.from_user.id)):
-		# если юзера нет в базе, добавляем его с неактивной подпиской (запоминаем)
-		db.add_subscriber_mus(message.from_user.id, False)
-		await message.answer("Вы итак не подписаны.")
-	else:
-		# если он уже есть, то просто обновляем ему статус подписки
-		db.update_subscription_mus(message.from_user.id, False)
-		await message.answer("Вы успешно отписаны от рассылки.")		
+# async def unsubscribe_mus(message: types.Message):
+# 	if(not db.subscriber_exists_mus(message.from_user.id)):
+# 		db.add_subscriber_mus(message.from_user.id, False)
+# 		await message.answer("Вы итак не подписаны.")
+# 	else:
+# 		db.update_subscription_mus(message.from_user.id, False)
+# 		await message.answer("Вы успешно отписаны от рассылки.")
 
 @dp.message_handler(commands=['history_calendar'])
 async def history_calendar(message: types.Message):
@@ -440,22 +436,22 @@ async def answercal(call):
 		await call.message.answer("Ждите, скоро выйдут новые статьи и вы узнаете о них первыми =)")
 		await call.message.edit_reply_markup(reply_markup=None)
 
-	if call.data == 'lastnews_mus':
-		markup_reply = types.ReplyKeyboardMarkup(resize_keyboard = True)
-		# парсим инфу о новой игре
-		nfo = mus.mus_info()
-
-		await bot.send_photo(
-			call.message.chat.id,
-			open(mus.download_image_mus(nfo['image']), 'rb'),
-			caption = nfo['title'] + "\n\n" + nfo['text'] + "\n\n" + nfo['link'],
-			disable_notification = True
-		)
-		await call.message.answer("Ждите, скоро выйдут новые статьи и вы узнаете о них первыми =)")
-		await call.message.edit_reply_markup(reply_markup=None)
-	elif call.data == 'cancel_mus':
-		await call.message.answer("Ждите, скоро выйдут новые статьи и вы узнаете о них первыми =)")
-		await call.message.edit_reply_markup(reply_markup=None)
+	# if call.data == 'lastnews_mus':
+	# 	markup_reply = types.ReplyKeyboardMarkup(resize_keyboard = True)
+	# 	# парсим инфу о новой игре
+	# 	nfo = mus.mus_info()
+	#
+	# 	await bot.send_photo(
+	# 		call.message.chat.id,
+	# 		open(mus.download_image_mus(nfo['image']), 'rb'),
+	# 		caption = nfo['title'] + "\n\n" + nfo['text'] + "\n\n" + nfo['link'],
+	# 		disable_notification = True
+	# 	)
+	# 	await call.message.answer("Ждите, скоро выйдут новые статьи и вы узнаете о них первыми =)")
+	# 	await call.message.edit_reply_markup(reply_markup=None)
+	# elif call.data == 'cancel_mus':
+	# 	await call.message.answer("Ждите, скоро выйдут новые статьи и вы узнаете о них первыми =)")
+	# 	await call.message.edit_reply_markup(reply_markup=None)
 
 
 
@@ -688,28 +684,28 @@ async def scheduled_mus(wait_for):
 		# проверяем наличие новых игр
 		new_mus = mus.new_mus()
 
-		if(new_mus):
-
-			# парсим инфу о новой игре
-			nfo = mus.mus_info()
-
-			# получаем список подписчиков ботаs
-			subscriptions = db.get_subscriptions_sale()
-
-			# отправляем всем новость
-		
-			for id in subscriptions:
-				try:
-					await bot.send_photo(
-					id[1],
-					open(mus.download_image_mus(nfo['image']), 'rb'),
-					caption = nfo['title'] + "\n\n" + nfo['text'] + "\n\n" + nfo['link'],
-					disable_notification = True
-				)
-				except: 
-					print('Bot was blocked by the user!')
-				# обновляем ключ
-			mus.update_lastkey_mus()
+		# if(new_mus):
+		#
+		# 	# парсим инфу о новой игре
+		# 	nfo = mus.mus_info()
+		#
+		# 	# получаем список подписчиков ботаs
+		# 	subscriptions = db.get_subscriptions_sale()
+		#
+		# 	# отправляем всем новость
+		#
+		# 	for id in subscriptions:
+		# 		try:
+		# 			await bot.send_photo(
+		# 			id[1],
+		# 			open(mus.download_image_mus(nfo['image']), 'rb'),
+		# 			caption = nfo['title'] + "\n\n" + nfo['text'] + "\n\n" + nfo['link'],
+		# 			disable_notification = True
+		# 		)
+		# 		except:
+		# 			print('Bot was blocked by the user!')
+		# 		# обновляем ключ
+		# 	mus.update_lastkey_mus()
 
 # запускаем лонг поллинг
 if __name__ == '__main__':
