@@ -201,3 +201,83 @@ class SQLighter:
     def close(self):
     # Закрываем соединение с БД
         self.connection.close()
+
+    # db sub spc
+
+    def get_subscriptions_space(self, status = True):
+        # Получаем всех активных подписчиков бота
+        with self.connection:
+            return self.cursor.execute("SELECT * FROM `subscriptions_space` WHERE `status` = ?", (status,)).fetchall()
+
+    def subscriber_exists_space(self, user_id):
+        # Проверяем, есть ли уже юзер в базе
+        with self.connection:
+            result = self.cursor.execute('SELECT * FROM `subscriptions_space` WHERE `user_id` = ?', (user_id,)).fetchall()
+            return bool(len(result))
+
+    def add_subscriber_space(self, user_id, status = True):
+        # Добавляем нового подписчика
+        with self.connection:
+            return self.cursor.execute("INSERT INTO `subscriptions_space` (`user_id`, `status`) VALUES(?,?)", (user_id,status))
+
+    def update_subscription_space(self, user_id, status):
+        # Обновляем статус подписки пользователя
+        with self.connection:
+            return self.cursor.execute("UPDATE `subscriptions_space` SET `status` = ? WHERE `user_id` = ?", (status, user_id))
+
+    def close(self):
+    # Закрываем соединение с БД
+        self.connection.close()
+
+
+    # db sub mmo
+    def get_subscriptions_mmo(self, status = True):
+        # Получаем всех активных подписчиков бота
+        with self.connection:
+            return self.cursor.execute("SELECT * FROM `subscriptions_mmo` WHERE `status` = ?", (status,)).fetchall()
+
+    def subscriber_exists_mmo(self, user_id):
+        # Проверяем, есть ли уже юзер в базе
+        with self.connection:
+            result = self.cursor.execute('SELECT * FROM `subscriptions_mmo` WHERE `user_id` = ?', (user_id,)).fetchall()
+            return bool(len(result))
+
+    def add_subscriber_mmo(self, user_id, status = True):
+        # Добавляем нового подписчика
+        with self.connection:
+            return self.cursor.execute("INSERT INTO `subscriptions_mmo` (`user_id`, `status`) VALUES(?,?)", (user_id,status))
+
+    def update_subscription_mmo(self, user_id, status):
+        # Обновляем статус подписки пользователя
+        with self.connection:
+            return self.cursor.execute("UPDATE `subscriptions_mmo` SET `status` = ? WHERE `user_id` = ?", (status, user_id))
+
+    def close(self):
+    # Закрываем соединение с БД
+        self.connection.close()
+
+    # db sub mob
+    def get_subscriptions_mob(self, status = True):
+        # Получаем всех активных подписчиков бота
+        with self.connection:
+            return self.cursor.execute("SELECT * FROM `subscriptions_mob` WHERE `status` = ?", (status,)).fetchall()
+
+    def subscriber_exists_mob(self, user_id):
+        # Проверяем, есть ли уже юзер в базе
+        with self.connection:
+            result = self.cursor.execute('SELECT * FROM `subscriptions_mob` WHERE `user_id` = ?', (user_id,)).fetchall()
+            return bool(len(result))
+
+    def add_subscriber_mob(self, user_id, status = True):
+        # Добавляем нового подписчика
+        with self.connection:
+            return self.cursor.execute("INSERT INTO `subscriptions_mob` (`user_id`, `status`) VALUES(?,?)", (user_id,status))
+
+    def update_subscription_mob(self, user_id, status):
+        # Обновляем статус подписки пользователя
+        with self.connection:
+            return self.cursor.execute("UPDATE `subscriptions_mob` SET `status` = ? WHERE `user_id` = ?", (status, user_id))
+
+    def close(self):
+    # Закрываем соединение с БД
+        self.connection.close()
