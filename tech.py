@@ -6,10 +6,10 @@ from urllib.parse import urlparse
 
 
 class Tech:
-    host = 'https://gagadget.com'
-    url = 'https://gagadget.com/news/'
+    host = 'https://gadgets.ndtv.com'
+    url = 'https://gadgets.ndtv.com/news'
     HEADERS = {
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36 OPR/73.0.3856.424',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36 OPR/75.0.3969.259',
         'accept': '*/*'
     }
 
@@ -29,35 +29,35 @@ class Tech:
             f.close()
 
     def new_tech(self):
-        r = requests.get(self.url)
-        html = BS(r.content, 'html.parser')
+        r = requests.get(self.url,self.HEADERS)
+        soup = BS(r.content, 'html.parser')
 
         new = ''
-        items = html.find('span', class_='cell-title').a.get('href')
+        items = soup.find('div', class_='caption_box').find('a').get('href')
 
         key = self.parse_href(items)
-        if (self.lastkey_tech < key):
+        if (self.lastkey_tech != key):
             new = key
 
         return new
 
     def tech_info(self):
-        r = requests.get(self.url, headers=self.HEADERS)
+        r = requests.get(self.url,self.HEADERS)
         soup = BS(r.content, 'html.parser')
-        link = soup.find('span', class_='cell-title').a.get('href')
+        link = soup.find('div', class_='caption_box').find('a').get('href')
 
-        postlink = self.host + link
+        postlink = link
 
-        rr = requests.get(postlink, headers=self.HEADERS)
+        rr = requests.get(postlink)
         newsoup = BS(rr.content, 'html.parser')
 
-        poster = self.host + newsoup.find('img', class_='js-album').get('src')
+        poster = newsoup.find('div', class_='fullstoryImage').find('img').get('src')
 
         info = {
-            "title": newsoup.find('div', class_='b-nodetop b-nodetop_nobor').find('h1').get_text(),
-            "link": postlink,
+            "title": soup.find('span', class_='news_listing').get_text(),
+            "link": link,
             "image": poster,
-            "text": newsoup.find('div', class_='b-font-def post-links').find('p').find_next('p').get_text()
+            "text": newsoup.find('div', class_='content_text row description').find('p').get_text()
         }
 
         return info
@@ -75,13 +75,16 @@ class Tech:
         r = requests.get(self.url)
         html = BS(r.content, 'html.parser')
 
-        items = html.find('span', class_='cell-title').a.get('href')
+        items = html.find('div', class_='caption_box').find('a').get('href')
         return self.parse_href(items)
 
     def parse_href(self, href):
-        result = re.search(r'\d{5}', href)
-        self.newkey = result.group(0)
-        return result.group(0)
+        r = requests.get(self.url)
+        html = BS(r.content, 'html.parser')
+
+        result= html.find('div', class_='caption_box').find('a').get('href')
+        self.newkey = result
+        return result
 
     def update_lastkey_tech(self):
         self.lastkey_tech = self.newkey
