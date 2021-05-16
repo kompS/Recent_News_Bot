@@ -6,12 +6,9 @@ from urllib.parse import urlparse
 
 
 class Music:
-    host = 'https://newsmuz.com'
-    url = 'https://newsmuz.com/news'
-    HEADERS = {
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36 OPR/73.0.3856.424',
-        'accept': '*/*'
-        }
+    url = 'https://www.rollingstone.com/music/music-news/'
+    HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36 OPR/75.0.3969.259','accept': '*/*'}
+
 
     newkey = ""
     lastkey_mus = ""
@@ -33,7 +30,7 @@ class Music:
         html = BS(r.content, 'html.parser')
 
         new = ''
-        items = html.find('span', class_='field-content zag').find('a').get('href')
+        items = html.find('article',class_='c-card c-card--domino').find('a').get('href')
 
         key = self.parse_href(items)
         if (self.lastkey_mus != key):
@@ -44,19 +41,19 @@ class Music:
     def mus_info(self):
         r = requests.get(self.url, headers=self.HEADERS)
         soup = BS(r.content, 'html.parser')
-        link = soup.find('span', class_='field-content zag').find('a').get('href')
+        link = soup.find('article',class_='c-card c-card--domino').find('a').get('href')
 
-        postlink = self.host + link
-        rr = requests.get(postlink, headers=self.HEADERS)
+        #postlink = self.host + link
+        rr = requests.get(link, headers=self.HEADERS)
         newsoup = BS(rr.content, 'html.parser')
 
-        poster = soup.find('div', class_='field-content').find('img').get('src')
+        poster = soup.find('div',class_='c-crop c-crop--size-domino').find('img').get('data-src')
 
         info = {
-            "title": soup.find('span', class_='field-content zag').find('a').get_text(),
-            "link": postlink,
+            "title": soup.find('h3',class_='c-card__heading t-bold').get_text(),
+            "link": link,
             "image": poster,
-            "text": newsoup.find('div', class_='field-item even').find_next('div', class_='field-item even').get_text()
+            "text": newsoup.find('div',class_='pmc-paywall').find('p').get_text()
         }
 
         return info
@@ -74,11 +71,11 @@ class Music:
         r = requests.get(self.url)
         html = BS(r.content, 'html.parser')
 
-        items = html.find('span', class_='field-content zag').find('a').get('href')
+        items = html.find('article',class_='c-card c-card--domino').find('a').get('href')
         return self.parse_href(items)
 
     def parse_href(self, href):
-        result = re.search(r'\d+', href)
+        result = re.search(r'\d{7}', href)
         self.newkey = result.group(0)
         return result.group(0)
 
